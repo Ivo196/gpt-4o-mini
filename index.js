@@ -28,4 +28,4 @@ async function openAIResponse(prompt) {
     })
     console.log(completion.choices[0])
 }
-openAIResponse('Que es el mate?')
+openAIResponse('Dame 5 lenguajes de programación')

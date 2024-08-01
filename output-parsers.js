@@ -20,27 +20,6 @@ const prompt =  ChatPromptTemplate.fromMessages([
     ['system','Generate a joke based on the word provided by the user.'],
     ['human','{input}']
 ])
-
-// Structured otuput parser 
-async function callStructuredParser() {
-    const prompt = ChatPromptTemplate.fromTemplate(`
-        Extract information from the following phrase. 
-        Formatting Instructions: {format_instructions} 
-        Phrase:{phrase}
-    `)
-    const outputParser = StructuredOutputParser.fromNamesAndDescriptions({ //Esto es lo que convierte en format_instructions y se lo paso a la prompt
-        name: 'The name of the person',
-        age: 'The age of the person'
-    })
-
-    const chain = prompt.pipe(model).pipe(outputParser)
-
-    return await chain.invoke({
-        format_instructions:outputParser.getFormatInstructions(),
-        phrase:'Max is 30 years old'
-    })
-}
-
 // // Create the parser
 // const parser = new StringOutputParser()
 
@@ -52,6 +31,29 @@ async function callStructuredParser() {
 //     input:'Dog'})
 
 // console.log(responde)
+
+
+//----------------------------------------//
+
+// Structured otuput parser 
+async function callStructuredParser() {
+    const prompt = ChatPromptTemplate.fromTemplate(`
+        Extract information from the following phrase. 
+        Formatting Instructions: {format_instructions} 
+        Phrase: {phrase}
+    `)
+    const outputParser = StructuredOutputParser.fromNamesAndDescriptions({ //Esto es lo que convierte en format_instructions y se lo paso a la prompt
+        name: 'The name of the person',
+        age: 'The age of the person'
+    })
+
+    const chain = prompt.pipe(model).pipe(outputParser)
+
+    return await chain.invoke({
+        format_instructions: outputParser.getFormatInstructions(),
+        phrase:'Max is 30 years old'
+    })
+}
 
 const response = await callStructuredParser() //Observamos que devuelve un objeto de js
 console.log(response)
